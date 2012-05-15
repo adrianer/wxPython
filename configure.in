@@ -2742,7 +2742,7 @@ AC_MSG_RESULT($wx_cv_std_libpath)
 
 # /usr/lib/x86_64-linux-gnu is necessary for Ubuntu 11.10+ 64 bit
 # For 32 bit it would be: /usr/lib/i386-linux-gnu
-SEARCH_LIB="`echo "$SEARCH_INCLUDE" | sed s@include@$wx_cv_std_libpath@g` /usr/$wx_cv_std_libpath /usr/$wx_cv_ubuntu_libpath"
+SEARCH_LIB="`echo "$SEARCH_INCLUDE" | sed s@include@$wx_cv_std_libpath@g` /usr/$wx_cv_ubuntu_libpath /usr/$wx_cv_std_libpath"
 
 dnl Cross compiling with gcc?
 if test "$build" != "$host" -a "$GCC" = yes; then
