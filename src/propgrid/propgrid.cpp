@@ -708,8 +708,11 @@ wxPGProperty::~wxPGProperty()
 {
 #if 1  // defined(__WXPYTHON__)
     delete m_OORClientData;
-    if ( m_clientData )
+    if ( m_clientData ) {
+		PyGILState_STATE state = PyGILState_Ensure();
         Py_DECREF( m_clientData );
+        PyGILState_Release(state);
+	}
 #endif
 
     DoEmpty();  // this deletes items
@@ -1268,7 +1271,9 @@ void wxPGProperty::SetValue( wxVariant value, wxVariant* pList, int flags )
     {
         if ( obj == Py_None )
             value.MakeNull();
+        PyGILState_STATE state = PyGILState_Ensure();
         Py_DECREF(obj);
+        PyGILState_Release(state);
     }
 #endif
 
@@ -9602,25 +9607,32 @@ public:
     }
     wxPGVariantDataPyObject( PyObject* value )
     {
+		PyGILState_STATE state = PyGILState_Ensure();
         if (!value) value = Py_None;
         Py_INCREF(value);
         m_value = value;
+        PyGILState_Release(state);
     }
     virtual ~wxPGVariantDataPyObject()
     {
         // Avoid crashing on program exit
-        if ( _PyThreadState_Current != NULL && m_value )
+        if ( _PyThreadState_Current != NULL && m_value ) {
+			PyGILState_STATE state = PyGILState_Ensure();
             Py_DECREF(m_value);
+            PyGILState_Release(state);
+		}
     }
     inline PyObject* GetValue() const { return m_value; }
     inline PyObject* GetValueRef() const { return m_value; }
     inline void SetValue(PyObject* value)
     {
+		PyGILState_STATE state = PyGILState_Ensure();
         if (m_value)
             Py_DECREF(m_value);
         if (!value) value = Py_None;
         Py_INCREF(value);
         m_value = value;
+        PyGILState_Release(state);
     }
     // TODO
     virtual bool Eq(wxVariantData&) const { return false; }
@@ -9639,10 +9651,12 @@ WX_PG_IMPLEMENT_DYNAMIC_CLASS_VARIANTDATA(wxPGVariantDataPyObject, wxPGVariantDa
 
 PyObject* operator <<( PyObject* value, const wxVariant &variant )
 {
+	PyGILState_STATE state = PyGILState_Ensure();
 	wxPGVariantDataPyObject *data = wxDynamicCastVariantData( variant.GetData(), wxPGVariantDataPyObject );
     wxASSERT( data );
     value = data->GetValue();
     Py_INCREF(value);
+    PyGILState_Release(state);
     return value;
 }
 
@@ -9659,7 +9673,9 @@ PyObject* PyObjectFromVariant( const wxVariant& v )
     if ( !data )
         return NULL;
     PyObject* retval = data->GetValue();
+    PyGILState_STATE state = PyGILState_Ensure();
     Py_INCREF(retval);
+    PyGILState_Release(state);
     return retval;
 }
 
