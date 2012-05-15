@@ -128,7 +128,6 @@ DEFINE_EVENT_TYPE(wxEVT_GRID_CELL_LEFT_CLICK)
 DEFINE_EVENT_TYPE(wxEVT_GRID_CELL_RIGHT_CLICK)
 DEFINE_EVENT_TYPE(wxEVT_GRID_CELL_LEFT_DCLICK)
 DEFINE_EVENT_TYPE(wxEVT_GRID_CELL_RIGHT_DCLICK)
-DEFINE_EVENT_TYPE(wxEVT_GRID_RIGHT_CELL_EDGE_LEFT_DCLICK)
 DEFINE_EVENT_TYPE(wxEVT_GRID_CELL_BEGIN_DRAG)
 DEFINE_EVENT_TYPE(wxEVT_GRID_LABEL_LEFT_CLICK)
 DEFINE_EVENT_TYPE(wxEVT_GRID_LABEL_RIGHT_CLICK)
@@ -6062,7 +6061,7 @@ void wxGrid::ChangeCursorMode(CursorMode mode,
 
 void wxGrid::ProcessGridCellMouseEvent( wxMouseEvent& event )
 {
-    int x, y, col;
+    int x, y;
     wxPoint pos( event.GetPosition() );
     CalcUnscrolledPosition( pos.x, pos.y, &x, &y );
 
@@ -6281,7 +6280,6 @@ void wxGrid::ProcessGridCellMouseEvent( wxMouseEvent& event )
     else if ( event.LeftDClick() && coords != wxGridNoCellCoords )
     {
         DisableCellEditControl();
-        col = XToEdgeOfCol(x);
 
         if ( XToEdgeOfCol(x) < 0 && YToEdgeOfRow(y) < 0 )
         {
@@ -6293,14 +6291,6 @@ void wxGrid::ProcessGridCellMouseEvent( wxMouseEvent& event )
                 // we want double click to select a cell and start editing
                 // (i.e. to behave in same way as sequence of two slow clicks):
                 m_waitForSlowClick = true;
-            }
-        }
-        else
-        {
-            if ( col >= 0 &&
-                 ! SendEvent( wxEVT_GRID_RIGHT_CELL_EDGE_LEFT_DCLICK, -1, col, event ) )
-            {
-                // no default action at the moment
             }
         }
     }

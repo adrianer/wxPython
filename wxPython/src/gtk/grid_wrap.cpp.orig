@@ -23964,7 +23964,6 @@ SWIGEXPORT void SWIG_init(void) {
   PyDict_SetItemString(d, "wxEVT_GRID_CELL_RIGHT_CLICK", PyInt_FromLong(wxEVT_GRID_CELL_RIGHT_CLICK));
   PyDict_SetItemString(d, "wxEVT_GRID_CELL_LEFT_DCLICK", PyInt_FromLong(wxEVT_GRID_CELL_LEFT_DCLICK));
   PyDict_SetItemString(d, "wxEVT_GRID_CELL_RIGHT_DCLICK", PyInt_FromLong(wxEVT_GRID_CELL_RIGHT_DCLICK));
-  PyDict_SetItemString(d, "wxEVT_GRID_RIGHT_CELL_EDGE_LEFT_DCLICK", PyInt_FromLong(wxEVT_GRID_RIGHT_CELL_EDGE_LEFT_DCLICK));
   PyDict_SetItemString(d, "wxEVT_GRID_LABEL_LEFT_CLICK", PyInt_FromLong(wxEVT_GRID_LABEL_LEFT_CLICK));
   PyDict_SetItemString(d, "wxEVT_GRID_LABEL_RIGHT_CLICK", PyInt_FromLong(wxEVT_GRID_LABEL_RIGHT_CLICK));
   PyDict_SetItemString(d, "wxEVT_GRID_LABEL_LEFT_DCLICK", PyInt_FromLong(wxEVT_GRID_LABEL_LEFT_DCLICK));
