@@ -1259,8 +1259,15 @@ public:
                     ro = PyObject_Str(ro);
                     Py_DECREF(old);
                 }
-                rval = Py2wxString(ro);
-                Py_DECREF(ro);
+                if (ro) {
+                    rval = Py2wxString(ro);
+                    Py_DECREF(ro);
+                } else {
+                    // Failed to convert the result to a string. Report the exception and
+                    // return an identifiable place holder string value.
+                    PyErr_Print();
+                    rval = wxT("<can not convert to string>");
+                }
             }
         }
         wxPyEndBlockThreads(blocked);
