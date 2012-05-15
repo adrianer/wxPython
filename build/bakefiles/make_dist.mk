@@ -13,6 +13,7 @@ SRCDIR   = $(WXDIR)/src
 GENDIR   = $(WXDIR)/src/generic
 COMMDIR  = $(WXDIR)/src/common
 HTMLDIR  = $(WXDIR)/src/html
+PROPGRIDDIR = $(WXDIR)/src/propgrid
 RICHTEXTDIR = $(WXDIR)/src/richtext
 AUIDIR =   $(WXDIR)/src/aui
 UNIXDIR  = $(WXDIR)/src/unix
@@ -165,6 +166,7 @@ ALL_GUI_DIST: ALL_DIST
 	mkdir $(DISTDIR)/include/wx/generic
 	mkdir $(DISTDIR)/include/wx/html
 	mkdir $(DISTDIR)/include/wx/richtext
+	mkdir $(DISTDIR)/include/wx/propgrid
 	mkdir $(DISTDIR)/include/wx/aui
 	mkdir $(DISTDIR)/include/wx/protocol
 	mkdir $(DISTDIR)/include/wx/unix
@@ -175,6 +177,7 @@ ALL_GUI_DIST: ALL_DIST
 	$(CP_P) $(INCDIR)/wx/generic/*.h $(DISTDIR)/include/wx/generic
 	$(CP_P) $(INCDIR)/wx/html/*.h $(DISTDIR)/include/wx/html
 	$(CP_P) $(INCDIR)/wx/richtext/*.h $(DISTDIR)/include/wx/richtext
+	$(CP_P) $(INCDIR)/wx/propgrid/*.h $(DISTDIR)/include/wx/propgrid
 	$(CP_P) $(INCDIR)/wx/aui/*.h $(DISTDIR)/include/wx/aui
 	$(CP_P) $(INCDIR)/wx/unix/*.h $(DISTDIR)/include/wx/unix
 	$(CP_P) $(INCDIR)/wx/xml/*.h $(DISTDIR)/include/wx/xml

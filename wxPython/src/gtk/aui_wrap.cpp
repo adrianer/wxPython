@@ -16303,6 +16303,88 @@ fail:
 }
 
 
+SWIGINTERN PyObject *_wrap_AuiNotebook_SavePerspective(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
+  PyObject *resultobj = 0;
+  wxAuiNotebook *arg1 = (wxAuiNotebook *) 0 ;
+  wxString result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  PyObject *swig_obj[1] ;
+  
+  if (!args) SWIG_fail;
+  swig_obj[0] = args;
+  res1 = SWIG_ConvertPtr(swig_obj[0], &argp1,SWIGTYPE_p_wxAuiNotebook, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "AuiNotebook_SavePerspective" "', expected argument " "1"" of type '" "wxAuiNotebook *""'"); 
+  }
+  arg1 = reinterpret_cast< wxAuiNotebook * >(argp1);
+  {
+    PyThreadState* __tstate = wxPyBeginAllowThreads();
+    result = (arg1)->SavePerspective();
+    wxPyEndAllowThreads(__tstate);
+    if (PyErr_Occurred()) SWIG_fail;
+  }
+  {
+#if wxUSE_UNICODE
+    resultobj = PyUnicode_FromWideChar((&result)->c_str(), (&result)->Len());
+#else
+    resultobj = PyString_FromStringAndSize((&result)->c_str(), (&result)->Len());
+#endif
+  }
+  return resultobj;
+fail:
+  return NULL;
+}
+
+
+SWIGINTERN PyObject *_wrap_AuiNotebook_LoadPerspective(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
+  PyObject *resultobj = 0;
+  wxAuiNotebook *arg1 = (wxAuiNotebook *) 0 ;
+  wxString *arg2 = 0 ;
+  bool result;
+  void *argp1 = 0 ;
+  int res1 = 0 ;
+  bool temp2 = false ;
+  PyObject * obj0 = 0 ;
+  PyObject * obj1 = 0 ;
+  char *  kwnames[] = {
+    (char *) "self",(char *) "layout", NULL 
+  };
+  
+  if (!PyArg_ParseTupleAndKeywords(args,kwargs,(char *)"OO:AuiNotebook_LoadPerspective",kwnames,&obj0,&obj1)) SWIG_fail;
+  res1 = SWIG_ConvertPtr(obj0, &argp1,SWIGTYPE_p_wxAuiNotebook, 0 |  0 );
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "AuiNotebook_LoadPerspective" "', expected argument " "1"" of type '" "wxAuiNotebook *""'"); 
+  }
+  arg1 = reinterpret_cast< wxAuiNotebook * >(argp1);
+  {
+    arg2 = wxString_in_helper(obj1);
+    if (arg2 == NULL) SWIG_fail;
+    temp2 = true;
+  }
+  {
+    PyThreadState* __tstate = wxPyBeginAllowThreads();
+    result = (bool)(arg1)->LoadPerspective((wxString const &)*arg2);
+    wxPyEndAllowThreads(__tstate);
+    if (PyErr_Occurred()) SWIG_fail;
+  }
+  {
+    resultobj = result ? Py_True : Py_False; Py_INCREF(resultobj);
+  }
+  {
+    if (temp2)
+    delete arg2;
+  }
+  return resultobj;
+fail:
+  {
+    if (temp2)
+    delete arg2;
+  }
+  return NULL;
+}
+
+
 SWIGINTERN PyObject *_wrap_AuiNotebook_SetNormalFont(PyObject *SWIGUNUSEDPARM(self), PyObject *args, PyObject *kwargs) {
   PyObject *resultobj = 0;
   wxAuiNotebook *arg1 = (wxAuiNotebook *) 0 ;
@@ -24856,6 +24938,8 @@ static PyMethodDef SwigMethods[] = {
 	 { (char *)"AuiNotebook_GetSelection", (PyCFunction)_wrap_AuiNotebook_GetSelection, METH_O, NULL},
 	 { (char *)"AuiNotebook_Split", (PyCFunction) _wrap_AuiNotebook_Split, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"AuiNotebook_GetAuiManager", (PyCFunction)_wrap_AuiNotebook_GetAuiManager, METH_O, NULL},
+	 { (char *)"AuiNotebook_SavePerspective", (PyCFunction)_wrap_AuiNotebook_SavePerspective, METH_O, NULL},
+	 { (char *)"AuiNotebook_LoadPerspective", (PyCFunction) _wrap_AuiNotebook_LoadPerspective, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"AuiNotebook_SetNormalFont", (PyCFunction) _wrap_AuiNotebook_SetNormalFont, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"AuiNotebook_SetSelectedFont", (PyCFunction) _wrap_AuiNotebook_SetSelectedFont, METH_VARARGS | METH_KEYWORDS, NULL},
 	 { (char *)"AuiNotebook_SetMeasuringFont", (PyCFunction) _wrap_AuiNotebook_SetMeasuringFont, METH_VARARGS | METH_KEYWORDS, NULL},

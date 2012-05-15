@@ -3165,6 +3165,30 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
 </set>
 
 <!-- ====================================================================== -->
+<!--                                  wxPropertyGrid                        -->
+<!-- ====================================================================== -->
+
+<set var="PROPGRID_SRC" hints="files">
+    src/propgrid/advprops.cpp
+    src/propgrid/editors.cpp
+    src/propgrid/extras.cpp
+    src/propgrid/manager.cpp
+    src/propgrid/odcombo.cpp
+    src/propgrid/propgrid.cpp
+    src/propgrid/props.cpp
+    src/propgrid/xh_propgrid.cpp
+</set>
+<set var="PROPGRID_HDR" hints="files">
+    wx/propgrid/advprops.h
+    wx/propgrid/editors.h
+    wx/propgrid/extras.h
+    wx/propgrid/odcombo.h
+    wx/propgrid/manager.h
+    wx/propgrid/propgrid.h
+    wx/propgrid/props.h
+</set>
+
+<!-- ====================================================================== -->
 <!--                                  wxRichTextCtrl                        -->
 <!-- ====================================================================== -->
 
@@ -3427,6 +3451,7 @@ IMPORTANT: please read docs/tech/tn0016.txt before modifying this file!
             $(GUI_CORE_HEADERS)
             $(ADVANCED_HDR) $(MEDIA_HDR) $(HTML_HDR)
             $(OPENGL_HDR) $(QA_HDR) $(DBGRID_HDR) $(XRC_HDR) $(AUI_HDR) $(RICHTEXT_HDR)
+            $(PROPGRID_HDR)
         </if>
     </set>
 

@@ -708,7 +708,7 @@ class _ComponentManager:
         if panel not in self.panels: self.panels[panel] = []
         # Auto-select bitmap if not provided
         if not bitmap:
-            bmpPath = os.path.join('bitmaps', component.klass + '.png')
+            bmpPath = os.path.join('/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps', component.klass + '.png')
             if os.path.exists(bmpPath):
                 bitmap = wx.Bitmap(bmpPath)
             else:

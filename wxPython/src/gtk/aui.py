@@ -1458,6 +1458,14 @@ class AuiNotebook(_core.Control):
         """GetAuiManager(self) -> AuiManager"""
         return _aui.AuiNotebook_GetAuiManager(*args, **kwargs)
 
+    def SavePerspective(*args, **kwargs):
+        """SavePerspective(self) -> String"""
+        return _aui.AuiNotebook_SavePerspective(*args, **kwargs)
+
+    def LoadPerspective(*args, **kwargs):
+        """LoadPerspective(self, String layout) -> bool"""
+        return _aui.AuiNotebook_LoadPerspective(*args, **kwargs)
+
     def SetNormalFont(*args, **kwargs):
         """SetNormalFont(self, Font font)"""
         return _aui.AuiNotebook_SetNormalFont(*args, **kwargs)

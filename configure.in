@@ -503,6 +503,7 @@ if test $DEBUG_CONFIGURE = 1; then
   DEFAULT_wxUSE_MINIFRAME=no
   DEFAULT_wxUSE_HTML=no
   DEFAULT_wxUSE_RICHTEXT=no
+  DEFAULT_wxUSE_PROPGRID=no
   DEFAULT_wxUSE_XRC=no
   DEFAULT_wxUSE_AUI=no
   DEFAULT_wxUSE_WEBKIT=no
@@ -726,6 +727,7 @@ else
   DEFAULT_wxUSE_MENUS=yes
   DEFAULT_wxUSE_MINIFRAME=yes
   DEFAULT_wxUSE_HTML=yes
+  DEFAULT_wxUSE_PROPGRID=yes
   DEFAULT_wxUSE_RICHTEXT=yes
   DEFAULT_wxUSE_XRC=yes
   DEFAULT_wxUSE_AUI=yes
@@ -1085,6 +1087,7 @@ WX_ARG_ENABLE(logwin,      [  --enable-logwin         use wxLogWindow], wxUSE_LO
 WX_ARG_ENABLE(logdialog,   [  --enable-logdialog      use wxLogDialog], wxUSE_LOGDIALOG)
 WX_ARG_ENABLE(webkit,      [  --enable-webkit         use wxWebKitCtrl (Mac)], wxUSE_WEBKIT)
 WX_ARG_ENABLE(richtext,    [  --enable-richtext       use wxRichTextCtrl], wxUSE_RICHTEXT)
+WX_ARG_ENABLE(propgrid,    [  --enable-propgrid       use wxPropertyGrid], wxUSE_PROPGRID)
 WX_ARG_ENABLE(graphics_ctx, [  --enable-graphics_ctx   use graphics context 2D drawing API], wxUSE_GRAPHICS_CONTEXT)
 
 dnl ---------------------------------------------------------------------------
@@ -7588,6 +7591,13 @@ if test "$wxUSE_RICHTEXT" = "yes"; then
     SAMPLES_SUBDIRS="$SAMPLES_SUBDIRS richtext"
 fi
 
+USE_PROPGRID=0
+if test "$wxUSE_PROPGRID" = "yes"; then
+    AC_DEFINE(wxUSE_PROPGRID)
+    USE_PROPGRID=1
+    SAMPLES_SUBDIRS="$SAMPLES_SUBDIRS propgrid"
+fi
+
 dnl ---------------------------------------------------------------------------
 dnl wxImage options
 dnl ---------------------------------------------------------------------------
@@ -7854,6 +7864,10 @@ fi
 if test "$wxUSE_RICHTEXT" = "yes" ; then
     CORE_GUI_LIBS="richtext $CORE_GUI_LIBS"
 fi
+if test "$wxUSE_PROPGRID" = "yes" ; then
+    CORE_GUI_LIBS="propgrid $CORE_GUI_LIBS"
+fi
+
 
 if test "$wxUSE_GUI" != "yes"; then
     CORE_GUI_LIBS=""

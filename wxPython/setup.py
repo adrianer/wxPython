@@ -488,6 +488,32 @@ wxpExtensions.append(ext)
 
 
 
+swig_sources = run_swig(['propgrid.i'], 'src', GENDIR, PKGDIR,
+                        USE_SWIG, swig_force,
+                        swig_args + ['-I'+opj(WXDIR, 'include/wx/propgrid')],
+                        swig_deps + [opj(WXDIR, 'include/wx/propgrid/advprops.h'),
+                                     opj(WXDIR, 'include/wx/propgrid/editors.h'),
+                                     opj(WXDIR, 'include/wx/propgrid/manager.h'),
+                                     opj(WXDIR, 'include/wx/propgrid/propgrid.h'),
+                                     opj(WXDIR, 'include/wx/propgrid/props.h'),
+                                     ])
+if not MONOLITHIC and findLib('propgrid', libdirs):
+    propgridLib = makeLibName('propgrid')
+else:
+    propgridLib = []
+ext = Extension('_propgrid', swig_sources + ['src/propgrid/sampleprops.cpp'],
+                include_dirs =  includes + ['src/propgrid'],
+                define_macros = defines,
+                library_dirs = libdirs,
+                libraries = libs + propgridLib,
+                extra_compile_args = cflags,
+                extra_link_args = lflags,
+                **depends
+                )
+wxpExtensions.append(ext)
+
+
+
 swig_sources = run_swig(['richtext.i'], 'src', GENDIR, PKGDIR,
                         USE_SWIG, swig_force, swig_args,
                         swig_deps + [ 'src/_richtextbuffer.i',
@@ -1052,7 +1078,7 @@ if __name__ == "__main__":
 
               **other_kw
               )
-
+        BUILD_OPTIONS['build_base'] = BUILD_BASE + "-common"
         if not EGGing:
             if INSTALL_MULTIVERSION:
                 setup(name             = 'wxPython-common',
@@ -1067,7 +1093,7 @@ if __name__ == "__main__":
                       platforms        = PLATFORMS,
                       classifiers      = filter(None, CLASSIFIERS.split("\n")),
                       keywords         = KEYWORDS,
-
+                      packages = [''],
                       package_dir = { '': 'wxversion' },
                       py_modules = ['wxversion'],
 

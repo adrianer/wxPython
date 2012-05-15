@@ -1,0 +1,1 @@
+../../../samples/propgrid/sampleprops.h

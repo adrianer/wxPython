@@ -556,6 +556,9 @@ public:
 
 #if wxABI_VERSION >= 20801
     const wxAuiManager& GetAuiManager() const { return m_mgr; }
+	
+	wxString SavePerspective();
+	bool LoadPerspective(const wxString& layout);
 #endif
 
 #if wxABI_VERSION >= 20805

@@ -142,23 +142,23 @@ def create_controls(main_frame):
 
 def snap(evt):
     if evt.GetId() == xrc.XRCID('snap_panels'):
-        WCTF(app.frame_panels, 'bitmaps')
+        WCTF(app.frame_panels, '/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps')
     elif evt.GetId() == xrc.XRCID('snap_controls'):
-        WCTF(app.frame_controls, 'bitmaps')
+        WCTF(app.frame_controls, '/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps')
     elif evt.GetId() == xrc.XRCID('snap_frame'):
-        WTF(app.frame_frame, 'bitmaps/wxFrame.png')
+        WTF(app.frame_frame, '/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps/wxFrame.png')
     elif evt.GetId() == xrc.XRCID('snap_dialog'):
-        WTF(app.frame_dialog, 'bitmaps/wxDialog.png')
+        WTF(app.frame_dialog, '/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps/wxDialog.png')
     elif evt.GetId() == xrc.XRCID('snap_propsheetdialog'):
         print 'sleeping 1 sec'
         time.sleep(1)
-        WTF(app.frame_propsheetdialog, 'bitmaps/wxPropertySheetDialog.png')
+        WTF(app.frame_propsheetdialog, '/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps/wxPropertySheetDialog.png')
     elif evt.GetId() == xrc.XRCID('snap_menubar'):
-        WTFC(app.frame_menubar, 'bitmaps/wxMenuBar.png', app.frame_menubar.GetMenuBar())
+        WTFC(app.frame_menubar, '/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps/wxMenuBar.png', app.frame_menubar.GetMenuBar())
     elif evt.GetId() == xrc.XRCID('snap_menu'):
-        WTFC(app.frame_menubar, 'bitmaps/wxMenuBar.png')
+        WTFC(app.frame_menubar, '/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps/wxMenuBar.png')
     elif evt.GetId() == xrc.XRCID('snap_toolbar'):
-        WTFC(app.frame_menubar, 'bitmaps/wxToolBar.png', app.frame_menubar.GetToolBar())
+        WTFC(app.frame_menubar, '/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps/wxToolBar.png', app.frame_menubar.GetToolBar())
 
 if __name__ == '__main__':
     try: 
@@ -192,7 +192,7 @@ if __name__ == '__main__':
     app.frame_menubar = res.LoadFrame(main_frame, 'FRAME_ToolBar')
     app.frame_menubar.Show()
 
-    if not os.path.exists('bitmaps'): os.mkdir('bitmaps')
+    if not os.path.exists('/usr/share/python-wxgtk2.8/XRCed/plugins/bitmaps'): os.mkdir('bitmaps')
 
     main_frame.Bind(wx.EVT_MENU, snap, id=xrc.XRCID('snap_panels'))
     main_frame.Bind(wx.EVT_MENU, snap, id=xrc.XRCID('snap_controls'))
