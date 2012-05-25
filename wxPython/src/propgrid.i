@@ -266,20 +266,102 @@ bool PyObject_to_wxVariant( PyObject* input, wxVariant* v )
         *v = PyFloat_AsDouble(input);
         return true;
     }
-    else if ( PyDateTime_Check(input) )
+    else if ( PyDate_Check(input) )
     {
+        // Both date and datetime have these
         int year = PyDateTime_GET_YEAR(input);
-        int month = PyDateTime_GET_MONTH(input);
+        // Month is enumeration, make sure to match its first entry
+        int month = PyDateTime_GET_MONTH(input) - 1 + (int) wxDateTime::Jan;
         int day = PyDateTime_GET_DAY(input);
-        int hour = PyDateTime_DATE_GET_HOUR(input);
-        int minute = PyDateTime_DATE_GET_MINUTE(input);
-        int second = PyDateTime_DATE_GET_SECOND(input);
-        int microsecond = PyDateTime_DATE_GET_MICROSECOND(input);
+
+        // Only datetime.datetime has the following
+        int hour = 0;
+        int minute = 0;
+        int second = 0;
+        int microsecond = 0;
+        if ( PyDateTime_Check(input) )
+        {
+            hour = PyDateTime_DATE_GET_HOUR(input);
+            minute = PyDateTime_DATE_GET_MINUTE(input);
+            second = PyDateTime_DATE_GET_SECOND(input);
+            microsecond = PyDateTime_DATE_GET_MICROSECOND(input);
+        }
+
         wxDateTime wx_dateTime(day, (wxDateTime::Month)month, year,
                                hour, minute, second,
                                microsecond/1000);  // wx uses milliseconds
         *v = wx_dateTime;
         return true;
+    }
+    else if ( PyTuple_CheckExact(input) || PyList_CheckExact(input) )
+    {
+        int len = PySequence_Length(input);
+
+        if ( len )
+        {
+            int i;
+            PyObject* item = PySequence_GetItem(input, 0);
+            bool failed = false;
+            if ( PyString_CheckExact(item) || PyUnicode_CheckExact(item) )
+            {
+                wxArrayString arr;
+                for (i=0; i<len; i++)
+                {
+                    item = PySequence_GetItem(input, i);
+                    wxString* s = wxString_in_helper(item);
+                    if ( PyErr_Occurred() )
+                    {
+                        delete s;
+                        failed = true;
+                        break;
+                    }
+                    arr.Add(*s);
+                    delete s;
+                    Py_DECREF(item);
+                }
+
+                if ( !failed )
+                {
+                    *v = arr;
+                    return true;
+                }
+            }
+            else if ( PyInt_CheckExact(item) || PyLong_CheckExact(item) )
+            {
+                wxArrayInt arr;
+                for (i=0; i<len; i++)
+                {
+                    item = PySequence_GetItem(input, i);
+                    long val;
+                    if ( PyInt_CheckExact(item) )
+                    {
+                        val = PyInt_AS_LONG(item);
+                    }
+                    else if ( PyLong_CheckExact(item) )
+                    {
+                        val = PyLong_AsLong(item);
+                    }
+                    else
+                    {
+                        failed = true;
+                        break;
+                    }
+                    arr.Add(val);
+                    Py_DECREF(item);
+                }
+
+                if ( !failed )
+                {
+                    *v = WXVARIANT(arr);
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            *v = wxArrayString();
+            return true;
+        }
     }
     else if ( wxPySwigInstance_Check(input) )
     {
@@ -323,52 +405,6 @@ bool PyObject_to_wxVariant( PyObject* input, wxVariant* v )
             *v << *cpv_ptr;
             return true;
         }
-    }
-
-    //
-    // Because some of the above types may implement sequence interface
-    // as well, we must check sequences here at the bottom.
-    if ( PySequence_Check(input) )
-    {
-        int len = PySequence_Length(input);
-
-        if ( len )
-        {
-            int i;
-            PyObject* item = PySequence_GetItem(input, 0);
-            if ( PyString_Check(item) || PyUnicode_Check(item) )
-            {
-                wxArrayString arr;
-                for (i=0; i<len; i++)
-                {
-                    PyObject* item = PySequence_GetItem(input, i);
-                    wxString* s = wxString_in_helper(item);
-                    if (PyErr_Occurred()) return false;
-                    arr.Add(*s);
-                    delete s;
-                    Py_DECREF(item);
-                }
-                *v = arr;
-            }
-            else
-            {
-                wxArrayInt arr;
-                for (i=0; i<len; i++)
-                {
-                    PyObject* item = PySequence_GetItem(input, i);
-                    if ( !PyInt_Check(item) )
-                        return false;
-                    arr.Add(PyInt_AS_LONG(item));
-                    Py_DECREF(item);
-                }
-                *v = WXVARIANT(arr);
-            }
-        }
-        else
-        {
-            *v = wxArrayString();
-        }
-        return true;
     }
 
     //Py_TrackObject(input);
@@ -451,7 +487,8 @@ PyObject* wxVariant_to_PyObject( const wxVariant* v )
     {
         wxDateTime dt = v->GetDateTime();
         int year = dt.GetYear();
-        int month = dt.GetMonth();
+        // Month is enumeration, make sure to match its first entry
+        int month = dt.GetMonth() + 1 - (int) wxDateTime::Jan;
         int day = dt.GetDay();
         int hour = dt.GetHour();
         int minute = dt.GetMinute();
