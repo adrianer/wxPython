@@ -358,7 +358,7 @@ def run_swig(files, dir, gendir, package, USE_SWIG, force, swig_args,
     for file in files:
         basefile = os.path.splitext(file)[0]
         i_file   = os.path.join(dir, file)
-        if os.name == 'nt'
+        if os.name == 'nt':
             # Das vom Swig generierte py-File befindet sich unter Windows immer zwei Verzeichnisse über dem cpp-File.
             # Das hat bis jetzt nicht gestört, da die generierten Python-Wrapper im src-Paket bereit mit drin liegen.
             # Für den AuiNotebook-Patch fällt das aber auf, da dafür die Interfaces neu generiert werden müssen,
