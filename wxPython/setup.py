@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#-*- coding: utf-8 -*-
 #----------------------------------------------------------------------
 # Name:        setup.py
 # Purpose:     Distutils script for building wxPython
@@ -487,30 +488,33 @@ ext = Extension('_xrc',
 wxpExtensions.append(ext)
 
 
-
-swig_sources = run_swig(['propgrid.i'], 'src', GENDIR, PKGDIR,
-                        USE_SWIG, swig_force,
-                        swig_args + ['-I'+opj(WXDIR, 'include/wx/propgrid')],
-                        swig_deps + [opj(WXDIR, 'include/wx/propgrid/advprops.h'),
-                                     opj(WXDIR, 'include/wx/propgrid/editors.h'),
-                                     opj(WXDIR, 'include/wx/propgrid/manager.h'),
-                                     opj(WXDIR, 'include/wx/propgrid/propgrid.h'),
-                                     opj(WXDIR, 'include/wx/propgrid/props.h'),
-                                     ])
-if not MONOLITHIC and findLib('propgrid', libdirs):
-    propgridLib = makeLibName('propgrid')
-else:
-    propgridLib = []
-ext = Extension('_propgrid', swig_sources + ['src/propgrid/sampleprops.cpp'],
-                include_dirs =  includes + ['src/propgrid'],
-                define_macros = defines,
-                library_dirs = libdirs,
-                libraries = libs + propgridLib,
-                extra_compile_args = cflags,
-                extra_link_args = lflags,
-                **depends
-                )
-wxpExtensions.append(ext)
+if os.name == 'posix':
+    # nur für Linux ist propgrid in die wxPython-Sourcen von uns integriert wurden.
+    # Unter Windows kann es so gebaut werden (parallel zu den wx-Sourcen), wie es der
+    # propgrid-Autor vorsieht.
+    swig_sources = run_swig(['propgrid.i'], 'src', GENDIR, PKGDIR,
+                            USE_SWIG, swig_force,
+                            swig_args + ['-I'+opj(WXDIR, 'include/wx/propgrid')],
+                            swig_deps + [opj(WXDIR, 'include/wx/propgrid/advprops.h'),
+                                         opj(WXDIR, 'include/wx/propgrid/editors.h'),
+                                         opj(WXDIR, 'include/wx/propgrid/manager.h'),
+                                         opj(WXDIR, 'include/wx/propgrid/propgrid.h'),
+                                         opj(WXDIR, 'include/wx/propgrid/props.h'),
+                                         ])
+    if not MONOLITHIC and findLib('propgrid', libdirs):
+        propgridLib = makeLibName('propgrid')
+    else:
+        propgridLib = []
+    ext = Extension('_propgrid', swig_sources + ['src/propgrid/sampleprops.cpp'],
+                    include_dirs =  includes + ['src/propgrid'],
+                    define_macros = defines,
+                    library_dirs = libdirs,
+                    libraries = libs + propgridLib,
+                    extra_compile_args = cflags,
+                    extra_link_args = lflags,
+                    **depends
+                    )
+    wxpExtensions.append(ext)
 
 
 
