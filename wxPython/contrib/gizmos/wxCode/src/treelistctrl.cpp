@@ -3853,12 +3853,8 @@ void wxTreeListMainWindow::OnMouse (wxMouseEvent &event) {
         }
 
         // determine drag start
-        if (m_dragCount == 0) {
-            m_dragTimer->Start (DRAG_TIMER_TICKS, wxTIMER_ONE_SHOT);
-        }
         m_dragCount++;
         if (m_dragCount < 3) return; // minimum drag 3 pixel
-        if (m_dragTimer->IsRunning()) return;
 
         // we're going to drag
         m_dragCount = 0;

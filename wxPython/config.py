@@ -1,3 +1,4 @@
+#-*- coding: utf-8 -*-
 #----------------------------------------------------------------------
 # Name:        wx.build.config
 # Purpose:     Most of the contents of this module used to be located 
@@ -357,7 +358,14 @@ def run_swig(files, dir, gendir, package, USE_SWIG, force, swig_args,
     for file in files:
         basefile = os.path.splitext(file)[0]
         i_file   = os.path.join(dir, file)
-        py_file  = os.path.join(dir, gendir, pre+basefile+'.py')
+        if os.name == 'nt':
+            # Das vom Swig generierte py-File befindet sich unter Windows immer zwei Verzeichnisse über dem cpp-File.
+            # Das hat bis jetzt nicht gestört, da die generierten Python-Wrapper im src-Paket bereit mit drin liegen.
+            # Für den AuiNotebook-Patch fällt das aber auf, da dafür die Interfaces neu generiert werden müssen,
+            # alternativ patcht man es einfach rein.
+            py_file  = os.path.join(dir, '..', pre+basefile+'.py')
+        else:
+            py_file  = os.path.join(dir, gendir, pre+basefile+'.py')
         cpp_file = os.path.join(dir, gendir, pre+basefile+'_wrap.cpp')
 
         if add_under:
