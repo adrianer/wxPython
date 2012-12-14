@@ -875,6 +875,10 @@ if EGGing:
                                      'wxmsw%s%s_*.dll' % (WXDLLVER, libFlag()))) + \
                        glob.glob(opj(WXDIR, 'lib', 'vc_dll',
                                      'wxbase%s%s_*.dll' % (WXDLLVER, libFlag()))) + \
+                       glob.glob(opj(WXDIR, 'lib', 'vc_amd64_dll',
+                                     'wxmsw%s%s_*.dll' % (WXDLLVER, libFlag()))) + \
+                       glob.glob(opj(WXDIR, 'lib', 'vc_amd64_dll',
+                                     'wxbase%s%s_*.dll' % (WXDLLVER, libFlag()))) + \
                        [ 'distrib/msw/gdiplus.dll',
                          'distrib/msw/msvcp71.dll' ]
             for f in dllFiles:
