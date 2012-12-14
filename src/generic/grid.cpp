@@ -7944,7 +7944,7 @@ void wxGrid::DrawHighlight(wxDC& dc, const wxGridCellCoordsArray& cells)
 // This is used to redraw all grid lines e.g. when the grid line colour
 // has been changed
 //
-void wxGrid::DrawAllGridLines( wxDC& dc, const wxRegion & WXUNUSED(reg) )
+void wxGrid::DrawAllGridLines( wxDC& dc, const wxRegion & reg )
 {
 #if !WXGRID_DRAW_LINES
     return;
@@ -7955,30 +7955,13 @@ void wxGrid::DrawAllGridLines( wxDC& dc, const wxRegion & WXUNUSED(reg) )
 
     int top, bottom, left, right;
 
-#if 0  //#ifndef __WXGTK__
-    if (reg.IsEmpty())
-    {
-      int cw, ch;
-      m_gridWin->GetClientSize(&cw, &ch);
-
-      // virtual coords of visible area
-      //
-      CalcUnscrolledPosition( 0, 0, &left, &top );
-      CalcUnscrolledPosition( cw, ch, &right, &bottom );
-    }
-    else
-    {
-      wxCoord x, y, w, h;
-      reg.GetBox(x, y, w, h);
-      CalcUnscrolledPosition( x, y, &left, &top );
-      CalcUnscrolledPosition( x + w, y + h, &right, &bottom );
-    }
-#else
-      int cw, ch;
-      m_gridWin->GetClientSize(&cw, &ch);
-      CalcUnscrolledPosition( 0, 0, &left, &top );
-      CalcUnscrolledPosition( cw, ch, &right, &bottom );
-#endif
+    // Wir benutzen die Region, um zu verhindern, dass alle Zeilen neu gezeichnet werden. Dies tritt 
+    // beim ObjectGridView auf, wobei das Grid in einen extrem großen Viewport gepackt wird um das
+    // Zeichnen der Scrollbalken zu verhindern. nk
+    wxCoord x, y, w, h;
+    reg.GetBox(x, y, w, h);
+    CalcUnscrolledPosition( x, y, &left, &top );
+    CalcUnscrolledPosition( x + w, y + h, &right, &bottom );
 
     // avoid drawing grid lines past the last row and col
     //
@@ -7992,7 +7975,7 @@ void wxGrid::DrawAllGridLines( wxDC& dc, const wxRegion & WXUNUSED(reg) )
     int bottomRow = internalYToRow(bottom);
 
 #if !defined(__WXMAC__) || wxMAC_USE_CORE_GRAPHICS
-    wxRegion clippedcells(0, 0, cw, ch);
+    wxRegion clippedcells(reg);
 
     int i, j, cell_rows, cell_cols;
     wxRect rect;
@@ -9831,10 +9814,7 @@ void wxGrid::SetGridLineColour( const wxColour& colour )
     if ( m_gridLineColour != colour )
     {
         m_gridLineColour = colour;
-
-        wxClientDC dc( m_gridWin );
-        PrepareDC( dc );
-        DrawAllGridLines( dc, wxRegion() );
+        m_gridWin->Refresh();
     }
 }
 
@@ -9897,16 +9877,7 @@ void wxGrid::EnableGridLines( bool enable )
 
         if ( !GetBatchCount() )
         {
-            if ( enable )
-            {
-                wxClientDC dc( m_gridWin );
-                PrepareDC( dc );
-                DrawAllGridLines( dc, wxRegion() );
-            }
-            else
-            {
-                m_gridWin->Refresh();
-            }
+            m_gridWin->Refresh();
         }
     }
 }

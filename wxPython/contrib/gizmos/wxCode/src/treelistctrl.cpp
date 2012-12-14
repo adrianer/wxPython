@@ -2613,7 +2613,10 @@ void wxTreeListMainWindow::UnselectAllChildren (wxTreeListItem *item) {
 }
 
 void wxTreeListMainWindow::UnselectAll() {
-    UnselectAllChildren ((wxTreeListItem*)GetRootItem().m_pItem);
+	// Wir schauen hier erstmal nach, ob es überhaupt ein Root-Item gibt.
+	wxTreeItemId rootItem = GetRootItem();
+	if (rootItem.IsOk())
+		UnselectAllChildren ((wxTreeListItem*)rootItem.m_pItem);
 }
 
 // Recursive function !
